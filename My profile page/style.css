@@ -1,0 +1,103 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+/* Blue header*/
+header {
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    padding: 50px 22px;
+}
+
+header img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-top: 8px;
+    border: 4px solid white;
+}
+
+/* Navigation bar */
+nav {
+    background-color: #333;
+    padding: 12px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: black;
+    font-size: 17px;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #ffc107;
+}
+
+/* Main container for sections */
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+}
+
+/* Card-style sections */
+section {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: left;
+}
+
+h2 {
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+ul li {
+    background: #e9e9e9;
+    margin: 8px 0;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Buttons */
+button {
+    background-color: #28a745;
+    color: white;
+    padding: 12px 25px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 5px;
+}
+
+button:hover {
+    background-color: #218838;
+}

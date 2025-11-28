@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Budget Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        /* Blue header */
+        .header {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 30px;
+        }
+
+        /* Main container */
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        /* Light grey input section */
+        .input-section {
+            background-color: #e9e9e9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .input-box {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 15px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        /* Summary section - changes color based on balance */
+        .summary {
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .summary-green {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .summary-red {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .summary-gray {
+            background-color: #e2e3e5;
+            color: #383d41;
+        }
+
+        /* Simple chart */
+        .chart {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .bar {
+            height: 30px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .income-bar {
+            background-color: #28a745;
+        }
+
+        .expense-bar {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>Simple Budget Tool</h1>
+        <p>Track your money easily</p>
+    </div>
+
+    <!-- Main content -->
+    <div class="container">
+        <!-- Input section -->
+        <div class="input-section">
+            <div class="input-box">
+                <label>Monthly Income:</label>
+                <input type="number" id="income" placeholder="Enter your income">
+            </div>
+            
+            <div class="input-box">
+                <label>Monthly Expenses:</label>
+                <input type="number" id="expenses" placeholder="Enter your expenses">
+            </div>
+            
+            <button onclick="calculate()">Calculate Budget</button>
+            <button onclick="reset()" style="background-color: #6c757d;">Reset</button>
+        </div>
+
+        <!-- Summary section -->
+        <div id="summary" class="summary summary-gray">
+            <h3>Your Budget Summary</h3>
+            <p>Income: $<span id="showIncome">0</span></p>
+            <p>Expenses: $<span id="showExpenses">0</span></p>
+            <p>Balance: $<span id="showBalance">0</span></p>
+            <p id="message">Enter your income and expenses above</p>
+        </div>
+
+        <!-- Simple visual -->
+        <div class="chart">
+            <h3>Money Visualization</h3>
+            <div>
+                <p>Income</p>
+                <div class="bar income-bar" id="incomeBar" style="width: 0%;"></div>
+            </div>
+            <div>
+                <p>Expenses</p>
+                <div class="bar expense-bar" id="expenseBar" style="width: 0%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simple function to calculate budget
+        function calculate() {
+            // Get the values from inputs
+            let income = document.getElementById('income').value;
+            let expenses = document.getElementById('expenses').value;
+            
+            // Convert to numbers
+            income = parseFloat(income);
+            expenses = parseFloat(expenses);
+            
+            // Check if numbers are valid
+            if (!income || income < 0) {
+                alert('Please enter a valid income amount');
+                return;
+            }
+            
+            if (!expenses || expenses < 0) {
+                alert('Please enter a valid expense amount');
+                return;
+            }
+            
+            // Calculate balance
+            let balance = income - expenses;
+            
+            // Show results
+            document.getElementById('showIncome').textContent = income.toFixed(2);
+            document.getElementById('showExpenses').textContent = expenses.toFixed(2);
+            document.getElementById('showBalance').textContent = balance.toFixed(2);
+            
+            // Change colors and message based on balance
+            let summary = document.getElementById('summary');
+            let message = document.getElementById('message');
+            
+            if (balance > 0) {
+                summary.className = 'summary summary-green';
+                message.textContent = '✅ Great! You are saving money!';
+            } else if (balance < 0) {
+                summary.className = 'summary summary-red';
+                message.textContent = '⚠️ Warning! You are spending too much!';
+            } else {
+                summary.className = 'summary summary-gray';
+                message.textContent = '⚖️ Your budget is balanced';
+            }
+            
+            // Update simple bars
+            updateBars(income, expenses);
+        }
+        
+        // Function to update the visual bars
+        function updateBars(income, expenses) {
+            let total = income + expenses;
+            
+            if (total > 0) {
+                let incomePercent = (income / total) * 100;
+                let expensePercent = (expenses / total) * 100;
+                
+                document.getElementById('incomeBar').style.width = incomePercent + '%';
+                document.getElementById('expenseBar').style.width = expensePercent + '%';
+            }
+        }
+        
+        // Function to reset everything
+        function reset() {
+            document.getElementById('income').value = '';
+            document.getElementById('expenses').value = '';
+            document.getElementById('showIncome').textContent = '0';
+            document.getElementById('showExpenses').textContent = '0';
+            document.getElementById('showBalance').textContent = '0';
+            document.getElementById('summary').className = 'summary summary-gray';
+            document.getElementById('message').textContent = 'Enter your income and expenses above';
+            document.getElementById('incomeBar').style.width = '0%';
+            document.getElementById('expenseBar').style.width = '0%';
+        }
+        
+        // Allow Enter key to calculate
+        document.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                calculate();
+            }
+        });
+    </script>
+</body>
+</html>
